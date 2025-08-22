@@ -1,4 +1,4 @@
-# phys-exs
+# Exercices de Physiques et de Mathématiques
 Ce dépôt contient des exercices de physique et de mathématiques que j'ai créés à des fins éducatives.
 
 Ces exercices ont été écrits à l'aide d'outils d'intelligence artificielle pour avoir un regard critique sur la structure des cours etc.
