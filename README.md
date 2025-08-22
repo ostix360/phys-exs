@@ -1,36 +1,36 @@
 # phys-exs
-This repository contains physics and mathematics exercises I created for educational purposes.
+Ce dépôt contient des exercices de physique et de mathématiques que j'ai créés à des fins éducatives.
 
-## License
+## Licence
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+Ce projet est sous licence MIT - voir le fichier [LICENSE](LICENSE) pour plus de détails.
 
-## Contributing
+## Contribuer
 
-Contributions are welcome! If you'd like to contribute to this project:
+Les contributions sont les bienvenues ! Si vous souhaitez contribuer à ce projet :
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+1. Forkez le dépôt
+2. Créez une branche fonctionnalité (`git checkout -b feature/fonctionnalite-incroyable`)
+3. Commitez vos changements (`git commit -m 'Ajouter une fonctionnalité incroyable'`)
+4. Poussez vers la branche (`git push origin feature/fonctionnalite-incroyable`)
+5. Ouvrez une Pull Request
 
-Please make sure to:
-- Follow the existing code style
-- Add clear descriptions to your exercises
-- Include both problem statements and solutions when applicable
-- Test your LaTeX files compile correctly
+Veuillez vous assurer de :
+- Suivre le style de code existant
+- Ajouter des descriptions claires à vos exercices
+- Inclure à la fois les énoncés de problèmes et les solutions quand c'est applicable
+- Tester que vos fichiers LaTeX se compilent correctement
 
-## Exercises
+## Exercices
 
-### proton_in_LHC
-An exercise about a proton in the Large Hadron Collider (LHC) that covers:
-- Reference frames and coordinate systems
-- Electromagnetism
-- Special relativity
+### proton_dans_LHC
+Un exercice sur un proton dans le Grand collisionneur de hadrons (LHC) qui couvre :
+- Les référentiels et systèmes de coordonnées
+- L'électromagnétisme
+- La relativité restreinte
 
-This exercise is designed to work with fundamental concepts including vectors, coordinate systems, and basic calculations.
+Cet exercice est conçu pour travailler avec des concepts fondamentaux incluant les vecteurs, les systèmes de coordonnées et les calculs de base.
 
-## Pedagogical Objectives
+## Objectifs Pédagogiques
 
-*This section will be filled with learning objectives and educational goals for the exercises.*
+*Cette section sera remplie avec les objectifs d'apprentissage et les buts éducatifs pour les exercices.*
