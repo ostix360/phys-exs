@@ -7,7 +7,6 @@
 *.fls
 *.log
 *.out
-*.pdf
 *.run.xml
 *.synctex.gz
 *.toc
@@ -25,10 +24,6 @@
 *.ilg
 *.ind
 *.lol
-
-# Exception: Keep specific PDF files in exercises
-!proton_dans_LHC/correction.pdf
-!proton_dans_LHC/exo.pdf
 
 # Temporary files
 *~
