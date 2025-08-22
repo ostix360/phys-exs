@@ -5,4 +5,4 @@ Cette exercice à pour but de faire travailler les notions de référentiels, de
 ## Prérequis
 
 - Notions sur les vecteurs et les bases
-- Calculs littéral
+- Calculs littéraux
