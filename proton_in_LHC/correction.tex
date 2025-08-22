@@ -1,0 +1,263 @@
+\documentclass[11pt,a4paper]{article}
+
+
+% ---------- Review ----------
+
+% Réviser la présentation (exo 1, 2 ?? pas de numéro d'exo)
+% 
+
+
+
+
+
+% ---------- Encoding / Language ----------
+\usepackage[utf8]{inputenc} % (Not needed with lualatex, kept for portability)
+\usepackage[T1]{fontenc}
+\usepackage[english,french]{babel} % Adjust languages as needed
+\usepackage{csquotes}
+
+% ---------- Geometry / Layout ----------
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.08}
+\usepackage{parskip} % Space between paragraphs (no indents)
+\setlength{\parindent}{0pt}
+
+% ---------- Math / Physics ----------
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage{siunitx}
+\sisetup{per-mode=symbol, separate-uncertainty = true}
+\usepackage{physics}
+\usepackage{bm}
+
+% ---------- Graphics / Tables ----------
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,angles,quotes,calc,decorations.markings}
+% Small helper for vectors in TikZ
+\newcommand{\vect}[1]{\mathbf{#1}}
+
+% ---------- Hyperlinks ----------
+\usepackage[hidelinks]{hyperref}
+
+% ---------- Bibliography (adjust if needed) ----------
+\usepackage[
+    backend=biber,
+    style=phys,
+    biblabel=brackets,
+    sorting=nyt,
+    url=false,
+    doi=true,
+    eprint=true
+]{biblatex}
+\addbibresource{references.bib} % Create this file if needed
+
+% ---------- Custom Environments ----------
+\newcounter{exo}
+\newenvironment{exercice}[1][]{
+    \refstepcounter{exo}%
+    \par\medskip
+    \noindent\textbf{Exercice \theexo}%
+    \if\relax\detokenize{#1}\relax\else\ ( #1 )\fi
+    \par\nobreak\smallskip
+}{\par\medskip}
+
+\newenvironment{correction}{
+    \par\begingroup
+    \color{blue!60!black}
+    \smallskip\noindent\textit{Correction.}\quad
+}{\par\medskip\endgroup}
+
+% ---------- Utilities ----------
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Var}{\operatorname{Var}}
+\newcommand{\ii}{\mathrm{i}}
+\newcommand{\ee}{\mathrm{e}}
+
+% Highlight (use sparingly)
+\newcommand{\key}[1]{\textcolor{purple!70!black}{\bfseries #1}}
+
+% If you want to point back to original exercise numbering from exo.tex:
+% In exo.tex, ensure labels like \label{exo:proton-momentum}, then reuse them here.
+% Example usage below.
+
+% ---------- Title ----------
+\title{Correction des Exercices: Protons au LHC}
+\author{ }
+\date{\today}
+
+\begin{document}
+\maketitle
+\bigskip
+
+% ---------- Corrections des exercices (références Q1--Q16) ----------
+\section*{Corrections détaillées}
+\addcontentsline{toc}{section}{Corrections détaillées}
+\textit{Objectif pédagogique:} Chaque solution reprend les éléments de cours (définitions, formules données) pour montrer un cheminement clair depuis l'énoncé jusqu'à la réponse. Aucune connaissance n'est supposée au-delà de la notion de vecteur, et de calculs littéraux.
+
+\subsection*{Trajectoire et mécanique (Q1--Q3)}
+Rappel des formules fournies dans l'énoncé: position cartésienne en coordonnées cylindriques (Eq:1.1.1) et expressions de $\vec v$ et $\vec a$ Eqs 1.1.1a, 1.1.1b.
+\begin{correction}
+\paragraph{Étape 1: Comprendre le mouvement décrit.} Un \textbf{mouvement circulaire} de rayon fixé signifie que la distance au centre est constante dans le temps: $\rho(t)=\rho_0$. Le proton reste dans un \textbf{plan horizontal} si aucune variation verticale n'est mentionnée: donc $z(t)=z_0$ (généralement on choisit $z_0=0$ mais ce n'est pas obligatoire).
+
+\paragraph{Étape 2: Distinguer les coordonnées qui varient.} Si $\rho$ et $z$ sont constants, la seule coordonnée qui change pour faire tourner le point sur le cercle est l'angle $\varphi(t)$. Donc:
+\[
+\dot\rho=0,\; \dot z=0,\; \dot\varphi \neq 0.\]
+Si la vitesse angulaire n'est pas encore stabilisée (on "accélère" encore la particule), alors $\dot\varphi$ augmente et sa dérivée $\ddot\varphi$ peut être non nulle.
+
+\paragraph{Réponse Q1.} Constantes: $\rho, z, \dot\rho, \dot z$. Variables: $\varphi$ (et donc $\dot\varphi \neq 0$) ; $\dot\varphi$ est constant seulement si la norme de la vitesse reste constante.
+
+\paragraph{Étape 3: Accélération à partir de la formule générale.} En remplaçant $\dot\rho=0$ et $\ddot\rho=0$ dans Eq.~(1.1.1b):
+\[
+\vec a = ( - \rho \dot\varphi^{2}) \vec U_{\rho} + (\rho \ddot\varphi + 2\underbrace{\dot\rho}_{0}\dot\varphi) \vec U_{\varphi} = -\rho \dot\varphi^{2} \vec U_{\rho} + \rho \ddot\varphi \vec U_{\varphi}.
+\]
+On reconnaît:
+\begin{itemize}
+  \item une composante radiale (\textit{centripète}) $-\rho \dot\varphi^2\,\vec U_{\rho}$ dirigée vers le centre;
+  \item une composante tangentielle $\rho\ddot\varphi\,\vec U_{\varphi}$ seulement si $\ddot\varphi \neq 0$.
+\end{itemize}
+\paragraph{Réponse Q2.} Composantes nulles: toutes celles portant sur $\vec U_z$. La composante radiale est non nulle (même à vitesse angulaire constante). La composante tangentielle est nulle uniquement si $\ddot\varphi=0$.
+
+\paragraph{Étape 4: Application du PFD.} Le PFD (Eq:1.1.2) dit $\sum \vec F_i = m\vec a$. On ne détaille pas encore l'origine physique des forces (elles viendront plus tard: magnétique pour tourner, électrique pour accélérer); on écrit juste la forme vectorielle générale:
+\[
+\vec F = m\vec a = -m\rho \dot\varphi^{2}\vec U_{\rho} + m\rho\ddot\varphi\vec U_{\varphi}.
+\]
+\paragraph{Réponse Q3.} Expression ci-dessus: \emph{force centripète} $-m\rho \dot\varphi^{2}\vec U_{\rho}$ et éventuellement \emph{force tangentielle} $m\rho\ddot\varphi\vec U_{\varphi}$.
+
+\paragraph{Schéma d'aide.} Fig.~\ref{fig:correction-cercle} illustre les vecteurs de base et l'accélération.
+\begin{figure}[h]\centering
+\begin{tikzpicture}[scale=2]
+  % Circle
+  \draw[thick] (0,0) circle(1);
+  % Point on circle
+  \coordinate (P) at (60:1);
+  \fill (P) circle(1pt) node[above right]{$M$};
+  % Radius
+  \draw[->,thick] (0,0) -- (P) node[midway,above left]{$\rho$};
+  % Unit vectors
+  % u_rho is outward
+  \draw[->,very thick,blue] (P) -- ($(P)+(60:0.6)$) node[above]{$\vec U_{\rho}$};
+  % tangential direction is +phi (counterclockwise)
+  \draw[->,very thick,blue] (P) -- ($(P)+(150:0.6)$) node[left]{$\vec U_{\varphi}$};
+  % velocity (assume CCW for illustration)
+  \draw[->,thick,green!60!black] (P) -- ($(P)+(150:0.5)$) node[below left]{$\vec v$};
+  % radial acceleration (towards center)
+  \draw[->,thick,red] (P) -- ($(P)+(-120:0.6)$) node[below right]{$\vec a_{r}$};
+\end{tikzpicture}
+\caption{Vecteurs de base cylindriques et composante radiale de l'accélération centripète.}
+\label{fig:correction-cercle}
+\end{figure}
+\end{correction}
+
+\subsection*{Champ électrique (Q4--Q6)}
+Deux zones courtes d'accélération électrique.
+\begin{correction}
+\paragraph{Rappel cours.} Le champ électrique fournit une force $\vec F_E = q\vec E$ (Eq.1.2.1); son travail modifie l'énergie cinétique car il peut avoir une composante le long de $\vec v$.
+
+\paragraph{Analyse directionnelle.} Pour augmenter \emph{uniquement} la vitesse de rotation (pas le rayon) il faut:
+\begin{itemize}
+  \item ne pas modifier la composante radiale (sinon le rayon changerait);
+  \item fournir une force dans le sens du mouvement $\Rightarrow$ composante de $\vec E$ colinéaire à $\vec v$.
+\end{itemize}
+Or en coordonnées cylindriques $\vec v$ (dans le cas $\dot\rho=0$) est tangentielle: $\vec v = \rho\dot\varphi\,\vec U_{\varphi}$. Donc on choisit
+\[
+\boxed{\vec E = E\,\vec U_{\varphi}}\quad (E>0 \text{ dans le sens du mouvement}).
+\]
+\paragraph{Réponse Q4.} $\vec F_E = qE\,\vec U_{\varphi}$. L'énergie cinétique augmente sur la portion car la force est dans le sens du mouvement.
+
+\paragraph{Projection du PFD tangentielle.} Depuis $\vec F = m\vec a$ et $\vec a_{\varphi}= \rho\ddot\varphi$ (cf. partie précédente):
+\[
+qE = m(\rho\ddot\varphi) \quad \Rightarrow \quad \boxed{\ddot\varphi = \frac{qE}{m\rho}}.
+\]
+\paragraph{Réponses Q5 et Q6.} Composante tangentielle de l'accélération: $a_{\varphi}= \rho\ddot\varphi = \dfrac{qE}{m}$. Puis $\ddot\varphi = \dfrac{qE}{m\rho}$.
+
+\paragraph{Remarque pédagogique.} On a séparé la dynamique radiale (assurée plus tard par le champ magnétique) et la dynamique tangentielle (assurée ici par $\vec E$) pour rendre la lecture physique plus simple.
+\end{correction}
+
+\subsection*{Champ magnétique (Q7--Q10)}
+Champ magnétique uniforme destiné à courber la trajectoire.
+\begin{correction}
+\paragraph{Rappel cours.} La force magnétique (Eq.1.2.6) est $\vec F_B = q\vec v\times \vec B$ et ne fournit aucune énergie (toujours perpendiculaire à $\vec v$) à la particule. Idéal pour imposer une courbure sans changer la norme de $\vec v$.
+
+\paragraph{Orientation (Q7).} On veut une force \emph{radiale entrante}. Avec un mouvement horaire vu depuis $+z$, la vitesse est dirigée dans $-\vec U_{\varphi}$. Le produit vectoriel $(-\vec U_{\varphi})\times \vec U_z = -\vec U_{\rho}$. En effet en appliquant la régle de la main droite on a:
+
+Le pouce qui représentant la direction de la vitesse (dans le sens horaire), l'index qui représente la direction du champ magnétique et le majeur qui donne la direction de la force magnétique (radiale entrante, vers le centre du cercle).
+
+Le pouce est contraint d'être dans le sens horaire et le majeur vers le centre du cercle. Quand on tend l'index on remarque qu'il est vers le haut (direction $+z$).
+
+Donc choisir $\vec B = B\vec U_{z}$ donne bien la force centripète. Égalité des normes:
+\[
+qvB = m\frac{v^{2}}{\rho} \;\Longrightarrow\; \boxed{B = \frac{mv}{q\rho}}.
+\]
+
+\paragraph{Sens du courant (Q8).} Règle de la main droite pour une bobine: pouce dans le sens du courant, majeur donne $\vec B$ et l'index dans la direction de là où on veut connaitre la direction du champ magnétique. Pour avoir $\vec B$ vers $+z$, le courant est \emph{antihoraire} vu depuis $+z$.
+
+\paragraph{Géométrie des bobines (Q9).} Les bobines sont disposées au dessus et en dessous du tube. Elles forment un ensemble de spires alignées sur $z$ (modèle de solénoïde segmenté) assurant un champ axial presque uniforme le long de la trajectoire circulaire.
+
+\paragraph{Relations cinématiques (Q10a--b).} Mouvement circulaire: $v=\rho|\dot\varphi| \Rightarrow \dot\varphi = v/\rho$ (choix du signe selon le sens). De plus Substituer dans $B = m v/(q\rho)$ donne directement la relation demandée.
+
+\paragraph{Application numérique (Q10c).} Données: $m=1.7\times10^{-27}\,\text{kg}$, $q=1.6\times10^{-19}\,\text{C}$, $\rho=4.5\times10^{3}\,\text{m}$, $v = 0.2c \approx 6.0\times10^{7}\,\text{m/s}$. Alors:
+\[
+B = \frac{1.7\times10^{-27}\times6.0\times10^{7}}{1.6\times10^{-19}\times4.5\times10^{3}} \approx 1.4\times10^{-4}\,\text{T}.
+\]
+Modèle bobine infinie: $B=N\mu_0 I$ avec $N=500\,\text{m}^{-1}$, $\mu_0=1.3\times10^{-6}\,\text{H/m}$. Donc
+\[
+I = \frac{B}{N\mu_0} \approx \frac{1.4\times10^{-4}}{500\times1.3\times10^{-6}} \approx 2.2\times10^{-1}\,\text{A}.
+\]
+\paragraph{Schéma d'orientation.}
+\begin{figure}[h]\centering
+\begin{tikzpicture}[scale=1.2]
+  % Circle path (beam)
+  \draw[thick] (0,0) circle(2);
+  % Point & velocity (clockwise)
+  \coordinate (M) at (0:2);
+  \fill (M) circle(2pt) node[right]{$M$};
+  \draw[->,blue,very thick] (M) -- ($(M)+(0,-0.9)$) node[below]{$\vec v$};
+  % B field (up)
+\draw[purple,very thick] (M) circle(0.18);
+\fill[purple] (M) circle(0.06);
+\node[purple,above right] at (M) {$\vec B$};
+  % Force (towards center)
+  \draw[->,red,very thick] (M) -- (1.2,0) node[above]{$\vec F_B$};
+  % Center
+  \fill (0,0) circle(2pt) node[below]{$O$};
+\end{tikzpicture}
+\caption{Vitesse tangente horaire, champ $\vec B$ axial vers $+z$, force magnétique radiale entrante.}
+\label{fig:magnetique}
+\end{figure}
+\end{correction}
+
+\subsection*{Relativité et collision (Q11--Q16)}
+Collision frontale de deux protons de même vitesse opposée.
+\begin{correction}
+\paragraph{Rappel relativiste.} Énergie totale: $E=\gamma mc^{2}$; $\gamma = 1/\sqrt{1-\beta^{2}}$ avec $\beta=v/c$.
+
+\paragraph{Q11. Calcul de $\gamma$.} Pour $v=0.99c$: $\gamma = 1/\sqrt{1-0.99^{2}} \approx 7.09$. Donc $E = 7.09\, m_p c^{2}$. Avec $m_p c^{2} = 938\,\text{MeV}$: $E \approx 6.65\,\text{GeV}$. \emph{Différence}: L'énergie totale inclut l'énergie de masse $m_pc^{2}$ et l'énergie due au mouvement. Alors que l'énergie cinétique est uniquement la partie liée au mouvement de la particule.
+\paragraph{Q12. Énergie totale de collision.} Dans le référentiel du LHC (ici aussi référentiel du centre de masse car les impulsions des protons sont opposées et égales en norme): $E_{\text{tot}} = 2E \approx 13.3\,\text{GeV}$.
+
+\paragraph{Q13. Seuil pour produire un Higgs.} Besoin au minimum de l'énergie de masse du Higgs: $E_{\text{tot}}^{\min} = m_H c^{2} = 125\,\text{GeV}$. Condition: $2\gamma m_p c^{2} \ge 125\,\text{GeV} \Rightarrow \gamma_{\min} = \dfrac{125}{2\times 0.938} \approx 66.7$. Insuffisant avec $\gamma=7.09$;La production d'un boson de Higgs est impossible dans cette configuration simplifiée.
+
+\paragraph{Q14. Vitesse minimale.} Condition seuil (création au repos du Higgs) : $2\gamma m_p c^{2} = m_H c^{2} \;\Rightarrow\; \gamma_{\min} = \dfrac{m_H}{2m_p} = \dfrac{125\ \text{GeV}}{2\times 0.938\ \text{GeV}} \approx 66.65.$
+Définition relativiste: $\gamma = \dfrac{1}{\sqrt{1-\beta^{2}}} \;\Rightarrow\; 1-\beta^{2} = \dfrac{1}{\gamma^{2}} \;\Rightarrow\; \beta = \sqrt{1-\dfrac{1}{\gamma^{2}}}.$
+Substitution numérique: $\dfrac{1}{\gamma_{\min}^{2}} \approx \dfrac{1}{(66.65)^{2}} \approx 2.25\times10^{-4}$,
+donc $\beta_{\min} = \sqrt{1-2.25\times10^{-4}} \approx \sqrt{0.999775} \approx 0.999887.$
+Ainsi $v_{\min} = \beta_{\min} c \approx 0.999887\,c \approx 2.9976\times10^{8}\ \text{m·s}^{-1}$. % de $c$) en-dessous de la vitesse de la lumière.
+
+\paragraph{Q15. Détection indirecte.} A cette vitesse de proton si un boson de Higgs était produit, sa vitesse serait nulle. On ne détecte que ses produits de désintégration (photons, leptons, jets hadroniques) dans les détecteurs entourant la zone d'interaction.
+
+\paragraph{Q16. Limite relativiste.} Quand $v\to c$, $\beta\to 1$ et $\gamma \to \infty$, donc $E \to \infty$. Une énergie infinie serait nécessaire pour atteindre $c$: impossible pour une particule massive.
+
+%\paragraph{Remarque réaliste.} Au LHC réel, l'énergie de collision exploitable pour produire un Higgs vient des \emph{partons} (quarks et gluons) à l'intérieur des protons; deux protons à 6.5 TeV chacun (run typique) statistiquement permettent des sous-collisions partoniques au seuil de 125 GeV.
+\end{correction}
+
+% ------------------------------------------------------------------
+% Uncomment if bibliography is needed.
+% \printbibliography
+
+\end{document}
