@@ -1,0 +1,49 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.run.xml
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+*.lof
+*.lot
+*.bak
+*.backup
+*.figlist
+*.makefile
+*.xdy
+*.idx
+*.ilg
+*.ind
+*.lol
+
+# Exception: Keep specific PDF files in exercises
+!proton_dans_LHC/correction.pdf
+!proton_dans_LHC/exo.pdf
+
+# Temporary files
+*~
+*.tmp
+*.temp
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+
+# Build directories
+build/
+dist/
