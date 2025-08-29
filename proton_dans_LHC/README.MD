@@ -33,6 +33,8 @@ L'exercice explore le mouvement d'un proton dans le LHC en abordant plusieurs as
 
 L'objectif principal de cet exercice est d'utiliser des concepts fraichement vus et de répondre à des questions concrètes directement.
 
+De manière plus approfondie, cet exercice vise à :
+
 - Appliquer les concepts de physique moderne dans un contexte technologique
 - Développer la capacité d'analyse dans différents référentiels
 - Maîtriser les calculs vectoriels en coordonnées cylindriques

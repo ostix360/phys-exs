@@ -1,0 +1,790 @@
+\documentclass[11pt,a4paper]{article}
+
+% Langue et encodage
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+
+% Mise en page et polices
+\usepackage{lmodern}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{microtype}
+
+% Maths
+\usepackage{mathtools} % charge amsmath
+\usepackage{amssymb,amsthm}
+\numberwithin{equation}{section}
+
+% Graphiques et divers
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{mdframed}
+\usepackage{siunitx}
+\usepackage{enumitem}
+
+% Liens et références
+\usepackage{hyperref}
+\usepackage[nameinlink,noabbrev]{cleveref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue!60!black,
+    citecolor=blue!60!black,
+    urlcolor=blue!60!black
+}
+
+% Environnements théorèmes
+\theoremstyle{plain}
+\newtheorem{theorem}{Théorème}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemme}
+\newtheorem{corollary}[theorem]{Corollaire}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Définition}
+\newtheorem{example}[theorem]{Exemple}
+\newtheorem{exercise}[theorem]{Exercice}
+
+\theoremstyle{remark}
+\newtheorem*{remark}{Remarque}
+
+% Abréviations usuelles
+\usepackage{bm}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\abs}[1]{\left\lvert #1\right\rvert}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\ip}[2]{\left\langle #1,\, #2\right\rangle}
+
+% Opérateurs différentiels (Laplacien & co)
+\newcommand{\grad}{\vec{\nabla}}
+\newcommand{\diver}[1]{div(\vec{#1})}
+\newcommand{\Lap}{\Delta}
+
+% Bascules pour afficher/masquer les solutions
+\usepackage{environ}
+\newif\ifshowsolutions 
+\showsolutionstrue % mettre \showsolutionstrue pour afficher les solutions
+
+\NewEnviron{solution}{%
+    \ifshowsolutions
+        \begin{proof}[Solution]
+            \BODY
+        \end{proof}
+    \fi
+}
+
+% Bascules pour afficher/masquer les indications
+\newif\ifshowhints
+\showhintstrue % mettre \showhintstrue pour afficher les indications
+
+\NewEnviron{indication}{%
+    \ifshowhints
+        \begin{mdframed}[roundcorner=4pt, linewidth=0.8pt, linecolor=blue!50!black, backgroundcolor=blue!5]
+            	\textbf{Indication.} \BODY
+        \end{mdframed}
+    \fi
+}
+
+% Listes compactes
+\setlist{itemsep=0.3em, topsep=0.3em, labelsep=0.5em}
+
+% Métadonnées
+\title{Diagonalisation du Laplacien — Cours et Exercices}
+\author{
+}
+\date{\today}
+
+\begin{document}
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+Objectif: Comprendre ce que signifie la diagonalisation du Laplacien.
+
+Le format de ce document est le suivant: un petit peu de cours suivi d'une application.
+
+\subsection{Prérequis}
+Pour aborder ce cours, il est recommandé d'avoir des connaissances de base en algèbre linéaire (espaces vectoriels, bases, matrices), les nombres complexes (notamment la notion de complexe conjugué) et en analyse (intégration, dérivée, périodicité).
+
+\subsection{Indications}
+
+\subsection{Notations}
+
+\begin{itemize}
+    \item $\R^n$ : espace euclidien de dimension $n$.
+    \item $M_{n \times m}(\R)$ : ensemble des matrices de taille $n \times m$ à coefficients réels.
+\end{itemize}
+
+\section{Diagonalisation d'une Matrice}
+
+Dans cette partie, on se placera dans un espace euclidien de dimension finie $\R^n$ et on considérera des matrices réelles $A \in M_{n \times n}(\R)$.
+
+\subsection{Rappels}
+
+\subsubsection{Bases}
+
+\begin{definition}[Base]
+Une famille de vecteurs \((e_i)_{i \in I}\) dans un espace vectoriel \(E\) est une base de \(E\) si elle est libre et si tout vecteur de \(E\) peut s'écrire  comme combinaison linéaire de ces vecteurs (génératrice).
+\end{definition}
+
+\begin{remark}
+    La notion de base est fondamentale en algèbre linéaire, car elle permet de décrire tout vecteur d'un espace vectoriel comme une combinaison linéaire de vecteurs de cette base.
+\end{remark}
+
+\begin{remark}
+    Le nombre d'éléments d'une base d'un espace vectoriel indique la dimension de cet espace.
+\end{remark}
+
+Cette famille de vecteurs peut être orthogonale, orthonormée, ou aucune de ces formes.
+
+Pour le savoir, on utilise le produit scalaire.
+
+
+\begin{definition}[Produit scalaire] \label{def:ip}
+    Un produit scalaire est une application bilinéaire symétrique définie sur un espace vectoriel, qui associe à chaque paire de vecteurs un scalaire. Dans un espace euclidien, il est souvent noté \(\ip{\cdot}{\cdot}\) et vérifie les propriétés suivantes:
+    \begin{itemize}
+        \item \(\ip{u}{v} = \ip{v}{u}\) (symétrie)
+        \item \(\ip{u + v}{w} = \ip{u}{w} + \ip{v}{w}\) (bilinéarité)
+        \item \(\ip{\alpha u}{v} = \alpha \ip{u}{v}\) pour tout \(\alpha \in \R\) (linéarité)
+        \item \(\ip{u}{u} \geq 0\) avec égalité si et seulement si \(u = 0\) (définie positive)
+    \end{itemize}
+\end{definition}
+
+\begin{remark} \label{rem:ip}
+    Le produit scalaire dans un espace euclidien est souvent défini par la formule
+    \[
+        \ip{u}{v} = \sum_{i=1}^n u_i v_i
+    \]
+    où \(u = (u_1, \ldots, u_n)\) et \(v = (v_1, \ldots, v_n)\) sont des vecteurs de \(\R^n\).
+\end{remark}
+
+\begin{definition}[Norme]
+    La norme d'un vecteur \(u\) dans un espace vectoriel avec produit scalaire est définie par \(\norm{u} = \sqrt{\ip{u}{u}}\).
+\end{definition}
+
+La définition formelle du produit scalaire n'est pas si important à comprendre mais elle permet de définir la notion d'orthogonalité entre deux vecteurs.
+
+\subsubsection{Matrice et application linéaire}
+
+\begin{definition}[Application linéaire]
+Soit $E$ et $F$ deux espaces vectoriels. Une application $T : E \to F$ est dite linéaire si pour tout $u,v \in E$ et tout \(\alpha \in \R\), on a
+\[
+    T(u+v) = T(u) + T(v) \quad \text{et} \quad T(\alpha u) = \alpha T(u).
+\]
+\end{definition}
+
+\begin{definition}[Matrice associée]
+Soit $f : \R^n \to \R^m$ une application linéaire. On appelle matrice associée à $f$ la matrice $A \in M_{m \times n}(\R)$ telle que pour tout $v \in \R^n$, on a
+\[
+    f(v) = Av.
+\]
+\end{definition}
+
+\begin{remark}
+    On peut voir une application linéaire comme une transformation géométrique qui s'applique à un autre object géométrique (le vecteur).
+    En d'autres termes, le comportement de l'application linéaire est indépendant de la base choisie.
+    La matrice associée à l'application linéaire quant à elle, dépend de la base choisie où $v$ est exprimé et où $f(v)$ est exprimé également.
+\end{remark}
+
+\begin{figure}
+    \centering
+    \caption{Représentation géométrique de l'application linéaire $f(x,y) = (x + y, \ 2y)$}
+    \begin{tikzpicture}
+        \draw[-, gray] (-1,0) -- (3.5,0);
+        \draw[-, gray] (0,-1) -- (0,4.5);
+        \draw[->, red] (0,0) -- (1,0) node[right] {$x$};
+        \draw[->, red] (0,0) -- (0,1) node[above] {$y$};
+        \draw[->, thick, blue] (0,0) -- (1,2) node[midway, above right] {$\vec{v} = (1,2)$};
+        \draw[->, thick, green] (0,0) -- (3,4) node[midway, right] {$f(\vec{v})$};
+    \end{tikzpicture}
+\end{figure}
+
+
+\begin{example}
+    Soit $f: \R^2 \to \R^2$ définie par $f(x,y) = (x + y, \ 2y)$. Montrons que $f$ est linéaire.
+\end{example}
+\begin{proof}
+    Soit $u,v \in \R^2$ et $\alpha \in \R$. On note $u = (u_x, u_y)$ et $v = (v_x, v_y)$. On a
+    \[
+        f(u+v) = f(u_x + v_x, u_y + v_y) = (u_x + v_x + u_y + v_y, 2(u_y + v_y)) = (u_x + u_y, 2u_y) + (v_x + v_y, 2v_y) = f(u) + f(v).
+    \]
+    De même,
+    \[
+        f(\alpha u) = f(\alpha u_x, \alpha u_y) = (\alpha u_x + \alpha u_y, 2\alpha u_y) = \alpha(u_x + u_y, 2u_y) = \alpha f(u).
+    \] Donc $f$ est linéaire.
+\end{proof}
+
+\begin{remark}
+La matrice associée à $f$ est
+\[
+    A = \begin{pmatrix}
+        1 & 1 \\
+        0 & 2
+    \end{pmatrix}.
+\] \emph{On peut vérifier en calculant $f(v)$ pour $v = (v_x, v_y)$ et en utilisant le produit matriciel $Av$.}
+\end{remark}
+
+
+\begin{exercise}
+    Soit $f : \R^2 \to \R^2$ définie par $f(x,y) = (x * y, x + y)$. Montrer que $f$ n'est pas linéaire.
+\end{exercise}
+\begin{solution}
+    Soit $u,v \in \R^2$ et $\alpha \in \R$. On note $u = (u_x, u_y)$ et $v = (v_x, v_y)$. On a
+    \[
+        f(u+v) = f(u_x + v_x, u_y + v_y) = ((u_x + v_x)(u_y + v_y), u_x + v_x + u_y + v_y).
+    \]
+    Or,
+    \[
+        f(u) + f(v) = (u_x u_y, u_x + u_y) + (v_x v_y, v_x + v_y) = (u_x u_y + v_x v_y, u_x + u_y + v_x + v_y).
+    \]
+    Donc $f(u+v) \neq f(u) + f(v)$ en général. Donc $f$ n'est pas linéaire. Par exemple, pour $u = (1, 0)$ et $v = (0, 1)$, on a
+    \[
+        f(u+v) = f(1, 1) = (1 \times 1, 1+1) = (1, 2),
+    \]
+    tandis que
+    \[
+        f(u) + f(v) = f(1, 0) + f(0, 1) = (1 \times 0, 1+0) + (0 \times 1, 0+1) = (0, 1) + (0, 1) = (0, 2).
+    \]
+\end{solution}
+
+
+
+\subsection{Diagonalisation}
+
+\subsubsection{Motivation}
+
+La puissance d'une matrice peut être très coûteuse à calculer, en particulier pour des matrices de grande taille. La diagonalisation d'une matrice permet de simplifier ce calcul en réduisant le problème à celui de la puissance de matrices diagonales, qui est beaucoup plus simple.
+
+L'objectif de la diagonalisation, peut être vu comme changer la base de l'espace vectoriel afin que la matrice associée à l'application linéaire devienne diagonale.
+
+C'est-à-dire :
+\[
+    A = PDP^{-1}
+\]
+où \(D\) est une matrice diagonale et \(P\) est la matrice de changement de base de l'application linéaire.
+
+\subsubsection{Valeurs propres et vecteurs propres}
+
+L'objectif est donc de trouver les coefficients de la matrice diagonale \(D\) (que l'on appellera valeurs propres) et la matrice $P$ composée des vecteurs propres associés.
+
+En clair, si on exprime les vecteurs dans la base $P$, l'application linéaire associée à la matrice \(A\) devient une application diagonale : une simple multiplication des coefficients des vecteurs par les valeurs propres.
+
+Il faut donc trouver des vecteurs \(v\) tels que \(Av = \lambda v\), où \(\lambda\) est la valeur propre associée. $v$ est alors un vecteur propre de \(A\).
+
+Si on trouve $n$ vecteurs propres linéairement indépendants, on peut former la matrice \(P\) avec ces vecteurs comme colonnes, et la matrice \(D\) sera une matrice diagonale avec les valeurs propres correspondantes sur la diagonale.
+
+\begin{definition}[Valeur propre et vecteur propre]
+    Soit \(A\) une matrice carrée de taille \(n\). On dit qu'un scalaire \(\lambda\) est une valeur propre de \(A\) s'il existe un vecteur non nul \(v \in \mathbb{R}^n\) tel que \(Av = \lambda v\). Dans ce cas, \(v\) est appelé vecteur propre associé à la valeur propre \(\lambda\).
+\end{definition}
+
+\begin{remark}
+Il est important de noter que les valeurs propres peuvent être complexes, même si la matrice \(A\) est réelle. Dans ce cas, les vecteurs propres associés seront également complexes.
+\end{remark}
+
+\begin{example} \label{ex:diag}
+    Soit \(A = \begin{pmatrix}
+        1 & 1 \\
+        0 & 2
+    \end{pmatrix}\). On cherche les valeurs propres de $A$.
+    On part de $A v = \lambda v$. Un vecteur propre trivial est $v = (1, 0)$. En effet,
+    \[
+        A(1, 0) = (1, 0) = 1(1, 0).
+    \]
+    Donc $\lambda = 1$ est une valeur propre de $A$.
+    On sait que l'autre vecteur propre aura une composante non nulle en $y$ (car les 2 vecteurs propres doivent être linéairement indépendants).
+    Prenons $v = (1, 1)$. On a:
+    \[
+        A(1, 1) = (1 + 1, 2) = (2, 2) = 2(1, 1).
+    \]
+    Donc $\lambda = 2$ est une valeur propre de $A$.
+    On a donc trouvé les valeurs propres $\lambda_1 = 1$ et $\lambda_2 = 2$ avec les vecteurs propres associés $v_1 = (1, 0)$ et $v_2 = (1, 1)$.
+    \(
+        D = \begin{pmatrix}
+            1 & 0 \\
+            0 & 2
+        \end{pmatrix}
+        \quad \text{et} \quad
+        P = \begin{pmatrix}
+            1 & 1 \\
+            0 & 1
+        \end{pmatrix}
+    \)
+\end{example}
+
+\begin{remark}
+    Toutes les applications ne peuvent pas être diagonalisées.
+\end{remark}
+
+\begin{exercise}
+    Soit \(A\) une matrice \(2 \times 2\):
+    \[
+        A = \begin{pmatrix}
+            3 & 0 \\
+            1 & 2
+        \end{pmatrix}
+    \]
+    Cette matrice correspond à l'application linéaire $f(x,y) = (3x, x + 2y)$.
+    Trouver les valeurs propres et les vecteurs propres de \(A\).
+\end{exercise}
+
+\begin{solution}
+    De la même manière que dans l'exemple précédent, on cherche les valeurs propres et les vecteurs propres de \(A\).
+    On part de $A v = \lambda v$. Un vecteur propre trivial est $v = (0, 1)$.
+    En effet,
+    \[
+        A(0, 1) = (0, 2) = 2(0, 1).
+    \]
+    Donc $\lambda = 2$ est une valeur propre de $A$.
+    Pour trouver l'autre valeur propre, on cherche un vecteur propre avec une composante non nulle en $x$.
+    Prenons $v = (1, 1)$, on a:
+    \[
+        A(1, 1) = (3, 1 + 2) = (3, 3) = 3(1, 1).
+    \]
+    Donc $\lambda = 3$ est une valeur propre de $A$.
+    On a donc trouvé les valeurs propres $\lambda_1 = 2$ et $\lambda_2 = 3$ avec les vecteurs propres associés $v_1 = (0, 1)$ et $v_2 = (1, 1)$.
+    \(
+        D = \begin{pmatrix}
+            2 & 0 \\
+            0 & 3
+        \end{pmatrix}
+        \quad \text{et} \quad
+        P = \begin{pmatrix}
+            0 & 1 \\
+            1 & 1
+        \end{pmatrix}
+    \)
+\end{solution}
+
+
+
+\section{Diagonalisation du Laplacien}
+
+Avant de s'intéresser à la diagonalisation du Laplacien, étudions ce que sont les espaces de fonctions.
+
+\subsection{Espaces de fonctions}
+
+\subsubsection{Espaces des polynômes}
+
+Commençons par un espace de fonctions simple: l'espace des polynômes.
+
+On note $\mathcal{P}_n(\Omega)$ l'ensemble des polynômes de degré au plus \(n\) sur un intervalle \(\Omega\).
+
+On remarque que si on prend 2 polynômes \(p\) et \(q\) dans \(\mathcal{P}_n(\Omega)\) et un nombre \(c\), alors leur somme \(p + q\) et le produit \(c p\) sont également dans \(\mathcal{P}_n(\Omega)\).
+L'espace \(\mathcal{P}_n(\Omega)\) remplit également les autres conditions d'un espace vectoriel (voir annexe).
+
+Ici, les vecteurs ne sont plus des flèches dans un espace euclidien, mais des polynômes.
+
+La base canonique de l'espace des polynômes de degré au plus \(n\) est donnée par la famille \((1, x, x^2, \ldots, x^n)\).
+
+Cette famille génère bien l'ensemble des polynômes de degré au plus \(n\) . Et elle est libre, car les polynômes \(1, x, x^2, \ldots, x^n\) sont linéairement indépendants (à partir de l'addition et de la multiplication par un scalaire, on ne peut obtenir $x$ grâce aux autres).
+
+\begin{remark}
+    La base canonique est constituée de $n+1$ éléments, ce qui indique que la dimension de cet espace vectoriel est $n+1$.
+\end{remark}
+
+\begin{example}
+    Soit $p(x) = x^2 + 2x + 1$ un polynôme de degré 2. On peut l'écrire comme combinaison linéaire de la base canonique:
+    \[
+        p(x) = 1 \cdot 1 + 2 \cdot x + 1 \cdot x^2.
+    \]
+    $p$ a pour coordonnée $(1, 2, 1)$ dans la base canonique.
+\end{example}
+
+\begin{exercise}
+    Soit $p(x) = 3x^4 + 0.5 x +2$. Trouver ses coordonnées dans la base canonique.
+\end{exercise}
+
+\begin{solution}
+On a $p(x) = 3x^4 + 0.5 x +2$. On peut l'écrire comme combinaison linéaire de la base canonique:
+\[
+    p(x) = 2 \cdot 1 + 0.5 \cdot x + 3 \cdot x^4.
+\]
+$p$ a pour coordonnée $(2, 0.5, 0, 0, 3)$ dans la base canonique.
+\end{solution}
+
+\begin{exercise}
+    Soit $p(x) = x^2 + 2$. Trouver ses coordonnées dans la base $B = \{(x+1)^2, (x+1), 1\}$.
+\end{exercise}
+\begin{solution}
+    On a $p(x) = x^2 + 2$.
+    Calculons $1 \cdot (x+1)^2 = 1 \cdot (x^2 + 2x + 1) = x^2 + 2x + 1$.
+    Donc on peut écrire:
+    \[
+        p(x) = (x^2 + 2x + 1) - 2x + 1 = (x^2 + 2x + 1) - (2x - 2) + 3 = 1 \cdot (x+1)^2 - 2 \cdot (x+1) + 3 \cdot 1.
+    \]
+    Ainsi, les coordonnées de $p$ dans la base $B$ sont $(1, -2, 3)$.
+\end{solution}
+
+\subsubsection{Espace des fonctions continues}
+
+On note $\mathcal{C}(\Omega)$ l'ensemble des fonctions continues sur un intervalle $\Omega$.
+
+Cet espace est, à l'inverse de tous les espaces que nous avons vus jusqu'à présent, de dimension infinie.
+
+Chaque vecteur de cet espace représente une fonction définie sur $\Omega$.
+
+\begin{example}
+    Soit $\Omega = [0, 1]$.
+    \begin{itemize}
+        \item la fonction $f(x) = x^2$ est un élément de $\mathcal{C}(\Omega)$.
+        \item la fonction $g(x) = \sin(2\pi x)$ est un élément de $\mathcal{C}(\Omega)$.
+        \item la fonction $h(x) = e^x$ est un élément de $\mathcal{C}(\Omega)$.
+        \item la fonction $k(x) = 0$ est un élément de $\mathcal{C}(\Omega)$ (c'est l'élément neutre de l'addition).
+    \end{itemize}
+\end{example}
+
+\subsubsection{Espace des fonctions de carré intégrable $L^2(\Omega)$}
+
+"de carré intégrable", qu'est ce que cela veut dire?
+
+Cela signifie que les fonctions $f$ de cet espace vérifient
+\[
+    \int_\Omega |f|^2 \, dx < \infty.
+\]
+où $\Omega$ est l'ensemble de définition de la fonction $f$.
+
+Pourquoi cela nous intéresse-t-il?
+
+Revenons à la définition du produit scalaire dans l'espace euclidien (~\ref{def:ip}, ~\ref{rem:ip}).
+
+On avait défini le produit scalaire de deux vecteurs $u$ et $v$ comme la somme des produits de leurs composantes.
+\[
+    \ip{u}{v} = \sum_{i=1}^n u_i v_i.
+\]
+
+On va définir de manière similaire le produit scalaire dans l'espace $L^2(\Omega)$, où $\Omega$ est l'ensemble de définition, ici un intervalle de $\C$ car il sera utile de travailler avec des complexes plus tard.
+
+\begin{definition} \label{def:ip_L2}
+    Soit $f,g \in L^2(\Omega)$. On définit le produit scalaire par
+    \[
+        \ip{f}{g} = \int_\Omega f(x) \overline{g(x)} \, dx.
+    \]
+\end{definition}
+
+Où $\overline{g(x)}$ désigne le complexe conjugué de $g(x)$.
+
+\begin{exercise}
+    Soit $f,g \in L^2(\Omega)$. Montrer que le produit scalaire défini ci-dessus vérifie les propriétés du produit scalaire hermitien, quasi identique à celui défini plus haut (c.f. \ref{def:ip}) :
+    \begin{itemize}
+        \item \textbf{Linéarité en premier argument:} Pour tout $h \in L^2(\Omega)$ et $\alpha \in \C$, on a
+        \[
+            \ip{\alpha f + h}{g} = \alpha \ip{f}{g} + \ip{h}{g}.
+        \]
+        \item \textbf{Semi-linéarité en second argument:} Pour tout $h \in L^2(\Omega)$ et $\beta \in \C$, on a
+        \[
+            \ip{f}{\beta g + h} = \overline{\beta} \ip{f}{g} + \ip{f}{h}.
+        \]
+        \item \textbf{Conjugaison:} On a
+        \[
+            \ip{f}{g} = \overline{\ip{g}{f}}.
+        \]
+        \item \textbf{Positivité:} On a
+        \[
+            \ip{f}{f} \geq 0,
+        \]
+        avec égalité si et seulement si $f = 0$ presque partout.
+    \end{itemize}
+\end{exercise}
+
+\begin{solution}
+    On vérifie chaque propriété une par une:
+    \begin{itemize}
+        \item \textbf{Linéarité en premier argument:} Pour tout $h \in L^2(\Omega)$ et $\alpha \in \C$, on a
+        \[
+            \ip{\alpha f + h}{g} = \int_\Omega (\alpha f(x) + h(x)) \overline{g(x)} \, dx = \alpha \int_\Omega f(x) \overline{g(x)} \, dx + \int_\Omega h(x) \overline{g(x)} \, dx = \alpha \ip{f}{g} + \ip{h}{g}.
+        \]
+        \item \textbf{Semi-linéarité en second argument:} Pour tout $h \in L^2(\Omega)$ et $\beta \in \C$, on a
+        \[
+            \ip{f}{\beta g + h} = \int_\Omega f(x) \overline{(\beta g(x) + h(x))} \, dx = \overline{\beta} \int_\Omega f(x) \overline{g(x)} \, dx + \int_\Omega f(x) \overline{h(x)} \, dx = \overline{\beta} \ip{f}{g} + \ip{f}{h}.
+        \]
+        \item \textbf{Conjugaison:} On a
+        \[
+            \ip{f}{g} = \int_\Omega f(x) \overline{g(x)} \, dx = \overline{\int_\Omega g(x) \overline{f(x)} \, dx} = \overline{\ip{g}{f}}.
+        \]
+        \item \textbf{Positivité:} On a
+        \[
+            \ip{f}{f} = \int_\Omega |f(x)|^2 \, dx \geq 0.
+        \]
+    \end{itemize}
+\end{solution}
+
+Maintenant que nous avons défini le produit scalaire dans $L^2(\Omega)$, nous pouvons définir la norme.
+
+\begin{definition}[Norme dans $L^2(\Omega)$]
+Pour tout $f \in L^2(\Omega)$, on définit la norme de $f$ par
+\[
+    \norm{f} = \sqrt{\ip{f}{f}} = \sqrt{\int_\Omega |f(x)|^2 \, dx}.
+\]
+\end{definition}
+
+Nous avons défini tout ce qu'il faut pour parler de diagonalisation du Laplacien.
+
+\subsection{Diagonalisation du Laplacien}
+
+Dans cette partie, nous nous plaçons dans l'espace des fonctions $T$-périodiques et de carré intégrable, que nous noterons $L^2_T(\Omega)$.
+
+\subsubsection{Laplacien}
+
+Le laplacien est un opérateur différentiel très utilisé en physique. Il permet de décrire des phénomènes tels que la diffusion.
+
+\begin{definition}
+    Soit $u \in L^2_T(\Omega)$. On définit le Laplacien de $u$ par
+    \[
+        \Lap u = \sum_{i=1}^n \frac{\partial^2 u}{\partial x_i^2}.
+    \]
+\end{definition}
+
+\begin{exercise}
+    Montrer que le Laplacien est un opérateur linéaire.
+    C'est à dire que pour tout $u,v \in L^2_T(\Omega)$ et $\alpha,\beta \in \C$, on a
+    \[
+        \Lap(\alpha u + \beta v) = \alpha \Lap u + \beta \Lap v.
+    \]
+\end{exercise}
+
+\begin{indication}
+    Utiliser la linéarité des dérivées partielles: pour une variable $x_i$.
+    puis dériver une seconde fois et sommer sur $i$.
+    La périodicité n'intervient pas ici.
+\end{indication}
+
+\begin{solution}
+    Soit $u,v \in L^2_T(\Omega)$ et $\alpha,\beta \in \C$. $u$ et $v$ sont donc des fonctions $T$ périodiques. On a
+    \[
+        \Lap(\alpha u + \beta v) = \sum_{i=1}^n \frac{\partial^2}{\partial x_i^2}(\alpha u + \beta v) = \sum_{i=1}^n \left( \alpha \frac{\partial^2 u}{\partial x_i^2} + \beta \frac{\partial^2 v}{\partial x_i^2} \right) = \alpha \Lap u + \beta \Lap v.
+    \]
+    L'opérateur Laplacien est donc linéaire car les dérivées partielles sont linéaires.
+\end{solution}
+
+\subsubsection{Diagonalisation}
+
+Nous allons diagonaliser l'opérateur $\Lap$ dans l'espace $L^2_T(\Omega)$. Le processus est le même que pour les applications linéaires (cf. ~\ref{ex:diag}).
+Nous cherchons des fonctions $u \in L^2_T(\Omega)$ et des scalaires $\lambda \in \C$ tels que:
+\[ \label{eq:diag:lap}
+    \Lap u = \lambda u. 
+\]
+avec $u \in L^2_T(\Omega)$, c'est à dire une fonction $T$-périodique.
+
+\begin{exercise}
+    Trouver l'ensemble des fonctions propres associées à l'opérateur $\Lap$, c'est à dire l'ensembles des fonctions qui vérifient l'équation \eqref{eq:diag:lap}.
+    On prendra les fonctions à valeurs dans $\C$ et le cas 1D (c'est à dire $\Lap u = \frac{\partial^2 u}{\partial x^2}$).
+\end{exercise}
+
+\begin{indication}
+    Chercher des solutions sous la forme $u(x)=e^{ikx}$.
+    La $T$-périodicité impose $k = \tfrac{2\pi n}{T}$ pour $n\in\Z$.
+\end{indication}
+
+\begin{solution}
+    Partons de l'équation \eqref{eq:diag:lap}:
+    \[
+        \Lap u = \lambda u.
+    \]
+    En utilisant la définition du Laplacien, on obtient:
+    \[
+        \frac{\partial^2 u}{\partial x^2} = \lambda u.
+    \]
+    Il faut donc résoudre cette équation différentielle pour trouver les fonctions propres $u$ et les valeurs propres $\lambda$.
+    Les fonctions $u$ doivent être $T$ périodiques et à valeurs dans $\C$.
+    On peut chercher des solutions sous la forme $u(x) = e^{ikx}$ avec $k \in \mathbb{R}$. En effet, $u(x)$ est $T$-périodique si et seulement si $k$ est un multiple de $\frac{2\pi}{T}$.
+    En substituant cette forme dans l'équation différentielle, on obtient:
+    \[
+        -k^2 e^{ikx} = \lambda e^{ikx}.
+    \]
+    Cela signifie que les valeurs propres sont de la forme $\lambda = -k^2$ et que les fonctions propres sont de la forme $u(x) = e^{ikx}$.
+    Avec $k = \frac{2\pi n}{T}$ pour $n \in \mathbb{Z}$, on obtient les valeurs propres $\lambda_n = -\left(\frac{2\pi n}{T}\right)^2$ et les fonctions propres $u_n(x) = e^{i\frac{2\pi n}{T}x}$.
+\end{solution}
+
+Cela signifie que si on exprime une fonction $f \in L^2_T(\Omega)$ dans la base des fonctions propres de $\Lap$, l'opérateur $\Lap$ devient diagonal. Si on applique $\Lap$ à une fonction $\hat{f}$ exprimée dans cette base, on obtient:
+\[
+    \Lap \hat{f} = \sum_{n \in \mathbb{Z}} \lambda_n c_n,
+\]
+où $c_n$ sont les coefficients de la fonction $\hat{f}$ dans la base des fonctions propres.
+
+Cette équation différentielle, s'est transformée en une simple multiplication par les valeurs propres.
+
+Maintenant regardons comment passer de $f$ à $\hat{f}$.
+
+\begin{exercise}
+    La base des fonctions propres $u$ du $\Lap$ est elle: orthonormée? orthogonale? ou ni l'un ni l'autre?
+    Pour cela on utilisera le produit scalaire défini plus haut (~\ref{def:ip_L2}).
+\end{exercise}
+
+\begin{indication}
+    Calculer $\ip{u_n}{u_m}=\int_0^T e^{i\frac{2\pi n}{T}x} \, e^{-i\frac{2\pi m}{T}x}\,dx$.
+    Quand le produit scalaire est $0$, cela signifie que $u_n$ et $u_m$ sont orthogonaux.
+\end{indication}
+
+\begin{solution}
+    On identifie que $\Omega$, l'ensemble de définition est $[0,T]$.
+    On peut donc calculer le produit scalaire de deux fonctions propres $u_n$ et $u_m$:
+    \[
+        \ip{u_n}{u_m} = \int_0^T u_n \overline{u_m}\,dx = \int_0^T e^{i\frac{2\pi n}{T}x} e^{-i\frac{2\pi m}{T}x}\,dx = \int_0^T e^{i\frac{2\pi (n-m)}{T}x}\,dx.
+    \]
+    Si $n \neq m$, cette intégrale s'annule : en effet on intègre une exponentielle dont la moyenne sur une période est nulle, ce qui donne zéro.
+    Et si $n = m$, on obtient:
+    \[
+        \ip{u_n}{u_n} = \int_0^T |u_n|^2\,dx = \int_0^T 1\,dx = T.
+    \]
+    On en déduit que la famille $\{u_n\}_{n \in \Z}$ est orthogonale et que les fonctions propres sont de norme $\sqrt{T}$.
+\end{solution}
+
+On peut donc normaliser ces vecteurs $u$ en les divisant par leur norme, ce qui donne une nouvelle famille orthonormée $\{v_n\}_{n \in \Z}$ avec $v_n = \frac{u_n}{\sqrt{T}}$.
+
+\begin{remark}
+    Ces vecteurs $v_n$ forment une base orthonormée de $L^2(0,T)$ et sont des vecteurs propres de l'opérateur $\Lap$.
+\end{remark}
+
+Pour trouver les composantes $d_n$ d'une fonction $f \in L^2_T(\Omega)$ dans la base des fonctions propres $v_n$, on utilise le produit scalaire (comme pour un espace vectoriel de $\R^2$).
+On a alors:
+\[
+    d_n = \ip{f}{v_n} = \int_0^T f(x) \overline{v_n(x)}\,dx = \frac{1}{\sqrt{T}} \int_0^T f(x) \overline{u_n(x)}\,dx.
+\]
+
+\begin{remark}
+    Les coefficients $d_n$ peuvent être interprétés comme les projections de la fonction $f$ sur les fonctions propres $v_n$.
+\end{remark}
+
+On a donc:
+\[
+    f = \sum_{n \in \Z} d_n v_n.
+\]
+
+Usuellement, on préfère travailler dans la base des fonctions propres $u_n$.
+
+On a donc:
+\[
+    f = \sum_{n \in \Z} c_n u_n = \sum_{n \in \Z} c_n\sqrt{T} v_n.
+\]
+
+avec $c_n = \frac{1}{\sqrt{T}} d_n$, par identification des composantes.
+
+Finalement, on a:
+\[
+    c_n = \frac{1}{T} \int_0^T f(x) \overline{u_n(x)}\,dx.
+\]
+
+et 
+\begin{equation} \label{eq:fourier}
+    f = \sum_{n \in \Z} c_n u_n    
+\end{equation}
+
+
+On appelle $c_n$ les coefficients de Fourier.
+
+Sans même s'en rendre compte, nous venons de définir la notion de série de Fourier.
+\begin{remark}
+    La série de Fourier permet de représenter une fonction périodique comme une somme infinie de fonctions trigonométriques (ici des exponentielles complexes).
+    Cette représentation est très utile en analyse, en physique et en ingénierie, car elle permet de décomposer des signaux complexes en leurs composantes fréquentielles.
+\end{remark}
+
+
+\subsection{Application: diffusion périodique en 1D}
+
+On considère l'équation de diffusion (chaleur) sur $[0,T]$ avec conditions périodiques:
+\[
+    \frac{\partial \Theta(x,t)}{\partial t} = D \, \frac{\partial^2 \Theta(x,t)}{\partial x^2} = \Lap \Theta(x,t), \qquad x \in [0,T],\ t\ge 0,
+\]
+avec $\Theta(\cdot,t)$ $T$-périodique pour tout $t$, et une condition initiale $\Theta(x,0)=f(x)\in L^2_T(0,T)$ qui s'annule aux bords.
+
+\begin{exercise}
+    En utilisant la diagonalisation de $\Lap$ sur la base propre $u_n(x)=e^{i\frac{2\pi n}{T}x}$:
+    \begin{enumerate}[label=\alph*)]
+        \item Rappeler le développement de $f$ en série de Fourier (~\ref{eq:fourier}), $u_n$ et rappeler la formule de $c_n$.
+        \item Décomposer $\Theta(x,t)$ en série de Fourier également. On notera ces coefficients $d_n(t)$. Et calculer son laplacien.
+        \item A partir de la décomposition, récrire l'équation de la chaleur en fonction des coefficients $d_n(t)$.  
+        \item Projeter sur la base des fonctions propres $u_n$, puis résoudre cette equation différentielle et exprimer $d_n(t)$ en fonction de $c_n$.
+        \item En déduire l'expression de la solution $\Theta(x,t)$ en fonction des $c_n$, et en déduire la limite quand $t\to\infty$.
+        \item Qu'est ce que vous pouvez dire sur l'importance des coefficients de Fourier avec des grandes valeurs de $|n|$?
+    \end{enumerate}
+\end{exercise}
+
+\begin{indication}
+    \begin{enumerate}[label=\alph*)]
+        \item il y a juste à recopier
+        \item le calcul du laplacien est immédiat dans la base $u_n$.
+        \item reprenez le resultat de la question précédente, on devrait obtenir une égalité entre 2 sommes sur $n \in \Z$.
+        \item Pour le projection c'est comme les vecteurs classique: quand on projet sur $u_n$, on obtient uniquepment la composabte devant $u_n$.
+              On rappelle que les solutions d'une equation du première ordre sont des exponentielles multiples par une constante qui correspond à la condition initiale.
+    \end{enumerate}
+\end{indication}
+
+\begin{solution}
+
+    \textbf{a)} On a $f=\sum\limits_{n\in\Z} c_n \, u_n$ avec
+    \[
+        c_n = \frac{1}{T} \int_0^T f(x) \, \overline{u_n(x)}\,dx = \frac{1}{T} \int_0^T f(x)\, e^{-i\frac{2\pi n}{T}x}\,dx.
+    \]
+
+    \textbf{b)} On décompose $\Theta(x,t)$ en série de Fourier:
+    \[
+        \Theta(x,t) = \sum_{n \in \Z} d_n(t) u_n(x),
+    \]
+    avec
+    \[
+        d_n(t) = \frac{1}{T} \int_0^T \Theta(x,t) \, \overline{u_n(x)}\,dx = \frac{1}{T} \int_0^T \Theta(x,t)\, e^{-i\frac{2\pi n}{T}x}\,dx.
+    \]
+    Le laplacien de $\Theta(x,t)$ est:
+    \[
+        \Lap \Theta(x,t) = \sum_{n \in \Z} d_n(t) \Lap u_n(x) = -\sum_{n \in \Z} d_n(t) \Big(\frac{2\pi n}{T}\Big)^2 u_n(x).
+    \]
+
+    \textbf{c)} En substituant la décomposition dans l'équation de la chaleur, on obtient:
+    \[
+        \frac{\partial}{\partial t} \sum_{n \in \Z} d_n(t) u_n(x) = D \, \Lap \sum_{n \in \Z} d_n(t) u_n(x).
+    \]
+    Ce qui donne:
+    \[
+        \sum_{n \in \Z} d_n'(t) u_n(x) = -D \sum_{n \in \Z} d_n(t) \Big(\frac{2\pi n}{T}\Big)^2 u_n(x).
+    \]
+
+    \textbf{d)} En projetant sur la base des fonctions propres $u_n$, on obtient:
+    \[
+        d_n'(t) = -D\, \Big(\tfrac{2\pi n}{T}\Big)^2 \, d_n(t), \qquad n\in\Z.
+    \]
+    car les fonctions propres $u_n$ sont orthogonales.
+    Les solutions de cette équation différentielle sont de la forme:
+    \[
+        d_n(t) = c_n \, e^{-D\, \Big(\tfrac{2\pi n}{T}\Big)^2 t}, \qquad n\in\Z.
+    \]
+    En substituant dans la série de Fourier, on obtient la solution:
+    \[
+        \Theta(x,t) = \sum_{n \in \Z} d_n(t) u_n(x) = \sum_{n \in \Z} c_n \, e^{-D\, \Big(\tfrac{2\pi n}{T}\Big)^2 t} u_n(x).
+    \]
+
+    \textbf{e)} Lorsque $t \to \infty$, les termes avec $|n| > 0$ s'annulent exponentiellement, et on obtient:
+    \[
+        \Theta(x,t) \to c_0 = \frac{1}{T} \int_0^T f(x) \, dx.
+    \]
+    On remarque  que quand $t \to \infty$, la solution $\Theta(x,t)$ tend vers la moyenne de la condition initiale $f(x)$ sur l'intervalle $[0,T]$.
+
+    \textbf{f)} Les coefficients de Fourier pour les grandes valeurs de $|n|$ correspondent à des oscillations rapides dans l'espace. Dans le contexte de la diffusion, ces modes sont rapidement atténués, ce qui signifie que les contributions des hautes fréquences deviennent négligeables par rapport aux basses fréquences. Cela illustre le principe de la diffusion, où les variations rapides s'estompent au profit des variations lentes. 
+\end{solution}
+
+\section{Annexes}
+
+\subsection{Algébre linéaire}
+
+\begin{definition}[Espace vectoriel]
+    Un espace vectoriel \(V\) sur un corps \(K\) est un ensemble muni de deux opérations:
+    \begin{itemize}
+        \item une addition \(+\) qui associe à chaque paire \((u, v) \in V \times V\) un élément \(u + v \in V\),
+        \item une multiplication par un scalaire \(\cdot\) qui associe à chaque paire \((\alpha, v) \in K \times V\) un élément \(\alpha \cdot v \in V\),
+    \end{itemize}
+    telles que les axiomes suivants soient satisfaits pour tous \(u, v, w \in V\) et tous \(\alpha, \beta \in K\):
+    \begin{enumerate}
+        \item \(u + v = v + u\) (commutativité de l'addition)
+        \item \(u + (v + w) = (u + v) + w\) (associativité de l'addition)
+        \item Il existe un élément neutre pour l'addition noté \(0 \in V\) tel que \(u + 0 = u\) pour tout \(u \in V\).
+        \item Pour tout \(u \in V\), il existe un élément inverse noté \(-u \in V\) tel que \(u + (-u) = 0\).
+        \item \(\alpha \cdot (u + v) = \alpha \cdot u + \alpha \cdot v\) (distributivité de la multiplication par un scalaire)
+        \item \((\alpha + \beta) \cdot u = \alpha \cdot u + \beta \cdot u\) (distributivité de la multiplication par un scalaire)
+        \item \((\alpha \cdot \beta) \cdot u = \alpha \cdot (\beta \cdot u)\) (associativité de la multiplication par un scalaire)
+        \item \(1 \cdot u = u\) (élément neutre de la multiplication par un scalaire)
+    \end{enumerate}
+\end{definition}
+
+\end{document}
