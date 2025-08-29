@@ -66,7 +66,7 @@
 % Bascules pour afficher/masquer les solutions
 \usepackage{environ}
 \newif\ifshowsolutions 
-\showsolutionstrue % mettre \showsolutionstrue pour afficher les solutions
+\showsolutionsfalse % mettre \showsolutionstrue pour afficher les solutions
 
 \NewEnviron{solution}{%
     \ifshowsolutions
@@ -78,7 +78,7 @@
 
 % Bascules pour afficher/masquer les indications
 \newif\ifshowhints
-\showhintstrue % mettre \showhintstrue pour afficher les indications
+\showhintsfalse % mettre \showhintstrue pour afficher les indications
 
 \NewEnviron{indication}{%
     \ifshowhints
