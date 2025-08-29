@@ -11,7 +11,13 @@ Un exercice sur un proton dans le Grand collisionneur de hadrons (LHC) qui couvr
 - L'électromagnétisme
 - La relativité restreinte
 
-Cet exercice est conçu pour travailler avec des concepts fondamentaux incluant les vecteurs, les systèmes de coordonnées et les calculs de base.
+Cet exercice fait travailler des concepts fondamentaux incluant les vecteurs, les systèmes de coordonnées et les calculs de base.
+
+### diagonalisation_du_laplacien
+C'est un cours/exercice sur la diagonalisation du laplacien qui couvre :
+- de l'agébre linéaire (espace vectoriel, application linéaire et espace de fonctions)
+- les séries de Fourier
+- une méthode de résolution de l'équation de la chaleur 
 
 ## Objectifs Pédagogiques
 
