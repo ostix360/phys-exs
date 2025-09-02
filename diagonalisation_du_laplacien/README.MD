@@ -23,9 +23,9 @@ Pour aborder ce cours, il est recommandé d'avoir des connaissances de base en a
 ## Contenu
 
 **exo.tex** : Enoncé de l'exercice
-**exo.pdf** : PDF du cours et de l'énoncé de l'exercice
-**exo_ind.pdf** : PDF du cours et de l'énoncé de l'exercice avec des indications sur les exercices
-**exo_sol.pdf** : PDF de l'ensemble du document (cours, exercices, indications et solutions)
+**exo_no_solutions_no_hints.pdf** : PDF du cours et de l'énoncé de l'exercice
+**exo_hints.pdf** : PDF du cours et de l'énoncé de l'exercice avec des indications sur les exercices
+**exo_solutions_and_hints.pdf** : PDF de l'ensemble du document (cours, exercices, indications et solutions)
 
 ## Objectif pédagogiques
 
