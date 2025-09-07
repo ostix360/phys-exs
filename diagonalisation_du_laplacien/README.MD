@@ -44,3 +44,7 @@ Il est très important que les réponses soient cohérentes entre elles et avec 
 Très souvent pour répondre aux questions, il suffit d'utiliser directement les définitions des objets manipulés.
 
 Il est recommandé de faire le cours dans l'ordre et de ne pas hésiter à revenir en arrière si nécessaire.
+
+## Remerciements
+
+Je souhaiterais remercier Lucian pour sa relecture attentive et ses conseils dans l'amélioration de ce travail.

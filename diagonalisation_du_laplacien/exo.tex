@@ -66,7 +66,7 @@
 % Bascules pour afficher/masquer les solutions
 \usepackage{environ}
 \newif\ifshowsolutions 
-\showsolutionsfalse % mettre \showsolutionstrue pour afficher les solutions
+\showsolutionstrue % mettre \showsolutionstrue pour afficher les solutions
 
 \NewEnviron{solution}{%
     \ifshowsolutions
@@ -78,7 +78,7 @@
 
 % Bascules pour afficher/masquer les indications
 \newif\ifshowhints
-\showhintsfalse % mettre \showhintstrue pour afficher les indications
+\showhintstrue % mettre \showhintstrue pour afficher les indications
 
 \NewEnviron{indication}{%
     \ifshowhints
@@ -114,7 +114,7 @@ Pour aborder ce cours, il est recommandé d'avoir des connaissances de base en a
 \subsection{Notations}
 
 \begin{itemize}
-    \item $\R^n$ : espace euclidien de dimension $n$.
+    \item $\R^n$ : espace vectoriel de dimension $n$.
     \item $M_{n \times m}(\R)$ : ensemble des matrices de taille $n \times m$ à coefficients réels.
 \end{itemize}
 
@@ -129,6 +129,15 @@ Dans cette partie, on se placera dans un espace euclidien de dimension finie $\R
 \begin{definition}[Base]
 Une famille de vecteurs \((e_i)_{i \in I}\) dans un espace vectoriel \(E\) est une base de \(E\) si elle est libre et si tout vecteur de \(E\) peut s'écrire  comme combinaison linéaire de ces vecteurs (génératrice).
 \end{definition}
+
+\begin{example}
+    La base canonique de \(\R^2\) est constituée des vecteurs \(e_1 = (1, 0)\) et \(e_2 = (0, 1)\).
+    Les vecteurs \(e_1\) et \(e_2\) sont libres car $e_1$ n'est pas un multiple de $e_2$ et vice versa.
+    De plus, tout vecteur \(v = (x, y) \in \R^2\) peut s'écrire comme combinaison linéaire de \(e_1\) et \(e_2\):
+    \[
+        v = x e_1 + y e_2.
+    \]
+\end{example}
 
 \begin{remark}
     La notion de base est fondamentale en algèbre linéaire, car elle permet de décrire tout vecteur d'un espace vectoriel comme une combinaison linéaire de vecteurs de cette base.
@@ -147,18 +156,18 @@ Pour le savoir, on utilise le produit scalaire.
     Un produit scalaire est une application bilinéaire symétrique définie sur un espace vectoriel, qui associe à chaque paire de vecteurs un scalaire. Dans un espace euclidien, il est souvent noté \(\ip{\cdot}{\cdot}\) et vérifie les propriétés suivantes:
     \begin{itemize}
         \item \(\ip{u}{v} = \ip{v}{u}\) (symétrie)
-        \item \(\ip{u + v}{w} = \ip{u}{w} + \ip{v}{w}\) (bilinéarité)
-        \item \(\ip{\alpha u}{v} = \alpha \ip{u}{v}\) pour tout \(\alpha \in \R\) (linéarité)
+        \item \(\ip{\alpha u + v}{w} = \alpha \ip{u}{w} + \ip{v}{w}\) (bilinéarité (premier argument))
+        \item \(\ip{u}{\alpha v + w} = \alpha \ip{u}{v} + \ip{u}{w}\) (bilinéarité (second argument))
         \item \(\ip{u}{u} \geq 0\) avec égalité si et seulement si \(u = 0\) (définie positive)
     \end{itemize}
 \end{definition}
 
 \begin{remark} \label{rem:ip}
-    Le produit scalaire dans un espace euclidien est souvent défini par la formule
+    Le produit scalaire dans un espace euclidien est défini par la formule
     \[
         \ip{u}{v} = \sum_{i=1}^n u_i v_i
     \]
-    où \(u = (u_1, \ldots, u_n)\) et \(v = (v_1, \ldots, v_n)\) sont des vecteurs de \(\R^n\).
+    où \(u = (u_1, \ldots, u_n)\) et \(v = (v_1, \ldots, v_n)\) sont des vecteurs de \(\R^n\) exprimés dans la base canonique.
 \end{remark}
 
 \begin{definition}[Norme]
@@ -199,6 +208,7 @@ Soit $f : \R^n \to \R^m$ une application linéaire. On appelle matrice associée
         \draw[->, red] (0,0) -- (0,1) node[above] {$y$};
         \draw[->, thick, blue] (0,0) -- (1,2) node[midway, above right] {$\vec{v} = (1,2)$};
         \draw[->, thick, green] (0,0) -- (3,4) node[midway, right] {$f(\vec{v})$};
+        \draw[dashed, gray] (3,0) -- (3,4) -- (0,4);
     \end{tikzpicture}
 \end{figure}
 
@@ -256,9 +266,9 @@ La matrice associée à $f$ est
 
 \subsubsection{Motivation}
 
-La puissance d'une matrice peut être très coûteuse à calculer, en particulier pour des matrices de grande taille. La diagonalisation d'une matrice permet de simplifier ce calcul en réduisant le problème à celui de la puissance de matrices diagonales, qui est beaucoup plus simple.
+La puissance d'une matrice peut être très coûteuse à calculer, en particulier pour des matrices de grande taille. La diagonalisation d'une matrice permet de simplifier ce calcul en réduisant le problème à celui de la puissance de matrices diagonales, qui est beaucoup plus simple (puissance de chaque coefficient de la diagonale).
 
-L'objectif de la diagonalisation, peut être vu comme changer la base de l'espace vectoriel afin que la matrice associée à l'application linéaire devienne diagonale.
+L'objectif de la diagonalisation, peut être vu comme changer la base dans laquelle les vecteurs sont exprimés afin que la matrice associée à l'application linéaire devienne diagonale.
 
 C'est-à-dire :
 \[
@@ -409,6 +419,14 @@ $p$ a pour coordonnée $(2, 0.5, 0, 0, 3)$ dans la base canonique.
 \begin{exercise}
     Soit $p(x) = x^2 + 2$. Trouver ses coordonnées dans la base $B = \{(x+1)^2, (x+1), 1\}$.
 \end{exercise}
+\begin{indication}
+    On cherche des coefficients $a,b,c$ tels que
+    \[
+        p(x) = a \cdot (x+1)^2 + b \cdot (x+1) + c \cdot 1.
+    \]
+    Commencez par développer l'expression de droite et regrouper les termes en fonction des puissances de $x$.
+    Ensuite, identifiez les coefficients des termes en $x^2$, $x$ et la constante pour obtenir un système d'équations à résoudre pour $a$, $b$ et $c$.
+\end{indication}
 \begin{solution}
     On a $p(x) = x^2 + 2$.
     Calculons $1 \cdot (x+1)^2 = 1 \cdot (x^2 + 2x + 1) = x^2 + 2x + 1$.
@@ -421,7 +439,7 @@ $p$ a pour coordonnée $(2, 0.5, 0, 0, 3)$ dans la base canonique.
 
 \subsubsection{Espace des fonctions continues}
 
-On note $\mathcal{C}(\Omega)$ l'ensemble des fonctions continues sur un intervalle $\Omega$.
+On note $\mathcal{C}(\Omega)$ l'ensemble des fonctions de $\R \to \R$ continues sur un intervalle $\Omega$.
 
 Cet espace est, à l'inverse de tous les espaces que nous avons vus jusqu'à présent, de dimension infinie.
 
@@ -443,9 +461,18 @@ Chaque vecteur de cet espace représente une fonction définie sur $\Omega$.
 
 Cela signifie que les fonctions $f$ de cet espace vérifient
 \[
-    \int_\Omega |f|^2 \, dx < \infty.
+    \int_\Omega |f(x)|^2 \, dx < \infty.
 \]
 où $\Omega$ est l'ensemble de définition de la fonction $f$.
+\begin{indication}
+    Pour comprendre cette condition, il est utile de décortiquer l'expression:
+    \begin{itemize}
+        \item $\int_{\Omega}$: c'est l'intégrale sur l'intervalle $\Omega$. 
+        \item $|f(x)|^2$: c'est le carré du module de la fonction $f$ en $x$. 
+        \item $< \infty$: cela signifie que l'intégrale a une valeur finie.
+    \end{itemize}
+    Il est important de prendre cette méthode de décorticage pour comprendre la suite.
+\end{indication}
 
 Pourquoi cela nous intéresse-t-il?
 
@@ -525,7 +552,7 @@ Nous avons défini tout ce qu'il faut pour parler de diagonalisation du Laplacie
 
 \subsection{Diagonalisation du Laplacien}
 
-Dans cette partie, nous nous plaçons dans l'espace des fonctions $T$-périodiques et de carré intégrable, que nous noterons $L^2_T(\Omega)$.
+Dans cette partie, nous nous plaçons dans l'espace des fonctions $T$-périodiques et de carré intégrable et suffisamment lisse, que nous noterons $L^2_T(\Omega)$.
 
 \subsubsection{Laplacien}
 

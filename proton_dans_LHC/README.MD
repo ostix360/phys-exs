@@ -49,3 +49,7 @@ Pour cela n'hésitez pas à écrire les méthodes directement.
 L'exercice est décomposé en 4 parties dont les 3 premières sont liées et dépendent les unes des autres. Il est donc conseillé de les aborder dans l'ordre.
 
 Pour quelqu'un qui n'a pas encore une maîtrise complète des concepts, il est peut être préférable d'échelonner le travail sur ces parties, de faire des pauses entre les parties pour assimiler les notions.
+
+## Remerciements
+
+Je souhaiterais remercier Benoît pour ses conseils dans l'amélioration de ce travail.
