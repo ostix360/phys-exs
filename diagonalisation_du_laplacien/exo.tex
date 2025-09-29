@@ -494,6 +494,8 @@ On va définir de manière similaire le produit scalaire dans l'espace $L^2(\Ome
 
 Où $\overline{g(x)}$ désigne le complexe conjugué de $g(x)$.
 
+Ce produit scalaire retourne un nombre complexe qui représente une mesure de la similarité entre les fonctions $f$ et $g$ sur l'intervalle $\Omega$ tout comme le produit scalaire dans un espace euclidien.
+
 \begin{exercise}
     Soit $f,g \in L^2(\Omega)$. Montrer que le produit scalaire défini ci-dessus vérifie les propriétés du produit scalaire hermitien, quasi identique à celui défini plus haut (c.f. \ref{def:ip}) :
     \begin{itemize}
@@ -539,7 +541,9 @@ Où $\overline{g(x)}$ désigne le complexe conjugué de $g(x)$.
     \end{itemize}
 \end{solution}
 
-Maintenant que nous avons défini le produit scalaire dans $L^2(\Omega)$, nous pouvons définir la norme.
+Comme on vient de le montrer, le produit scalaire a quasi les mêmes propriétés que celui défini dans un espace euclidien.
+
+Maintenant que nous avons défini le produit scalaire dans $L^2(\Omega)$, nous pouvons définir la norme (comme pour les espaces euclidiens).
 
 \begin{definition}[Norme dans $L^2(\Omega)$]
 Pour tout $f \in L^2(\Omega)$, on définit la norme de $f$ par
@@ -587,6 +591,10 @@ Le laplacien est un opérateur différentiel très utilisé en physique. Il perm
     L'opérateur Laplacien est donc linéaire car les dérivées partielles sont linéaires.
 \end{solution}
 
+Le faite que le Laplacien soit un opérateur linéaire est très important pour la suite, cela signifie que l'on peut appliquer les notions de diagonalisation vues plus haut qui ont été définies pour des applications linéaires.
+
+On peut voir le Laplacien comme une application linéaire qui prend en entrée une fonction $u$ (un vecteur dans $L^2_T(\Omega)$) et qui retourne une autre fonction $\Lap u$ (un autre vecteur dans $L^2_T(\Omega)$).
+
 \subsubsection{Diagonalisation}
 
 Nous allons diagonaliser l'opérateur $\Lap$ dans l'espace $L^2_T(\Omega)$. Le processus est le même que pour les applications linéaires (cf. ~\ref{ex:diag}).
@@ -626,15 +634,17 @@ avec $u \in L^2_T(\Omega)$, c'est à dire une fonction $T$-périodique.
     Avec $k = \frac{2\pi n}{T}$ pour $n \in \mathbb{Z}$, on obtient les valeurs propres $\lambda_n = -\left(\frac{2\pi n}{T}\right)^2$ et les fonctions propres $u_n(x) = e^{i\frac{2\pi n}{T}x}$.
 \end{solution}
 
-Cela signifie que si on exprime une fonction $f \in L^2_T(\Omega)$ dans la base des fonctions propres de $\Lap$, l'opérateur $\Lap$ devient diagonal. Si on applique $\Lap$ à une fonction $\hat{f}$ exprimée dans cette base, on obtient:
+On note $\hat{f}$ une fonction exprimée dans la base des fonctions propres $u_n$ et $c_n$ les coefficients de la fonction $\hat{f}$ dans cette base.
+
+Si on applique $\Lap$ à une fonction $\hat{f}$ exprimée dans cette base, on obtient:
 \[
     \Lap \hat{f} = \sum_{n \in \mathbb{Z}} \lambda_n c_n,
 \]
 où $c_n$ sont les coefficients de la fonction $\hat{f}$ dans la base des fonctions propres.
 
-Cette équation différentielle, s'est transformée en une simple multiplication par les valeurs propres.
+Cette équation différentielle, s'est transformée en une simple multiplication par les valeurs propres. Cela simplifie grandement les calculs, en particulier pour la résolution d'équations différentielles qui devient algébrique.
 
-Maintenant regardons comment passer de $f$ à $\hat{f}$.
+Maintenant regardons comment passer de $f$ à $\hat{f}$, c'est à dire quels sont les coefficients $c_n$.
 
 \begin{exercise}
     La base des fonctions propres $u$ du $\Lap$ est elle: orthonormée? orthogonale? ou ni l'un ni l'autre?
@@ -660,7 +670,10 @@ Maintenant regardons comment passer de $f$ à $\hat{f}$.
     On en déduit que la famille $\{u_n\}_{n \in \Z}$ est orthogonale et que les fonctions propres sont de norme $\sqrt{T}$.
 \end{solution}
 
-On peut donc normaliser ces vecteurs $u$ en les divisant par leur norme, ce qui donne une nouvelle famille orthonormée $\{v_n\}_{n \in \Z}$ avec $v_n = \frac{u_n}{\sqrt{T}}$.
+Les vecteurs $u_n$ sont donc orthogonaux mais pas normés (car leur norme est $\sqrt{T}$ et non $1$).
+On peut normaliser ces vecteurs $u$ en les divisant par leur norme, ce qui donne une nouvelle famille orthonormée $\{v_n\}_{n \in \Z}$ avec $v_n = \frac{u_n}{\sqrt{T}}$.
+
+Cette partie est un tour de passe-passe pour obtenir l'expression des coefficients $c_n$ en passant par une base orthonormée.
 
 \begin{remark}
     Ces vecteurs $v_n$ forment une base orthonormée de $L^2(0,T)$ et sont des vecteurs propres de l'opérateur $\Lap$.
@@ -672,16 +685,13 @@ On a alors:
     d_n = \ip{f}{v_n} = \int_0^T f(x) \overline{v_n(x)}\,dx = \frac{1}{\sqrt{T}} \int_0^T f(x) \overline{u_n(x)}\,dx.
 \]
 
-\begin{remark}
-    Les coefficients $d_n$ peuvent être interprétés comme les projections de la fonction $f$ sur les fonctions propres $v_n$.
-\end{remark}
 
-On a donc:
+On a donc comme pour un espace euclidien:
 \[
     f = \sum_{n \in \Z} d_n v_n.
 \]
 
-Usuellement, on préfère travailler dans la base des fonctions propres $u_n$.
+Cependant, on préfère travailler dans la base des fonctions propres $u_n$.
 
 On a donc:
 \[
@@ -700,6 +710,7 @@ et
     f = \sum_{n \in \Z} c_n u_n    
 \end{equation}
 
+On a donc exprimé une fonction $f$ dans la base des fonctions propres $u_n$ du Laplacien et déterminé les coefficients $c_n$ de cette décomposition.
 
 On appelle $c_n$ les coefficients de Fourier.
 
@@ -815,4 +826,13 @@ avec $\Theta(\cdot,t)$ $T$-périodique pour tout $t$, et une condition initiale 
     \end{enumerate}
 \end{definition}
 
+\subsection{Un peu de physique}
+\subsubsection{Laplacien et diffusion}
+Le Laplacien est un opérateur différentiel qui joue un rôle crucial dans de nombreux domaines de la physique, notamment dans la description des phénomènes de diffusion.
+Il est défini comme la divergence du gradient d'une fonction scalaire. 
+En clair, pour une fonction $f$ définie dans un espace à 3 dimensions (attention, ici on ne parle pas de $L^2$ mais bien d'un espace qu'on peut experimenter), le laplacien de $f$ indique à quel point $f$ est homogène localement.
+Si $\Lap f = 0$ en un point, cela signifie que $f$ est localement homogène autour de ce point c'est à dire que la valeur de $f$ en ce point est égale à la moyenne des valeurs de $f$ dans un voisinage autour de ce point.
+
+On remarque que pour l'équation de diffusion, le Laplacien agit comme un opérateur de lissage (car la variation temporelle de la température est proportionnelle au Laplacien de la température).
+Cela signifie que pour un régime stationnaire (quand la température ne varie plus dans le temps càd. $\frac{\partial \Theta}{\partial t} = 0$), on a $\Lap \Theta = 0$ c'est à dire que la température est homogène. Autour d'un point la température est égale à la moyenne des températures dans un voisinage autour de ce point.
 \end{document}

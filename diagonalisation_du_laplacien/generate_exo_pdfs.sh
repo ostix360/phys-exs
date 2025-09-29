@@ -56,14 +56,17 @@ trap 'restore_original' EXIT
 # 1) Without solutions and hints
 set_flags false false
 build_and_move "${BASENAME}_no_solutions_no_hints.pdf"
+echo "Generated ${BASENAME}_no_solutions_no_hints.pdf"
 
 # 2) With hints and without solutions
 set_flags false true
 build_and_move "${BASENAME}_hints_only.pdf"
+echo "Generated ${BASENAME}_hints_only.pdf"
 
 # 3) With both solutions and hints
 set_flags true true
 build_and_move "${BASENAME}_solutions_and_hints.pdf"
+echo "Generated ${BASENAME}_solutions_and_hints.pdf"
 
 # Restore original file and clean up
 restore_original
