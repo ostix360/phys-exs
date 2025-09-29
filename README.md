@@ -1,8 +1,6 @@
 # Exercices de Physiques et de Mathématiques
 Ce dépôt contient des exercices de physique et de mathématiques que j'ai créés à des fins éducatives.
 
-Ces exercices ont été écrits à l'aide d'outils d'intelligence artificielle pour avoir un regard critique sur la structure des cours etc.
-
 ## Exercices
 
 ### proton_dans_LHC
@@ -22,6 +20,11 @@ C'est un cours/exercice sur la diagonalisation du laplacien qui couvre :
 ## Objectifs Pédagogiques
 
 L'objectif principal derrière ces exercices est d'utiliser des concepts fraîchement vus et de répondre à des questions concrètes directement. 
+
+
+## Note
+
+Ces exercices ont été écrits à l'aide d'outils d'intelligence artificielle afin d'avoir un regard exterieur sur la structure des cours etc.
 
 
 ## Contribuer
